@@ -29,11 +29,21 @@
     "Parameters": [
       {
         "Name": "blogger",
-        "Type": "BlogApi.Models.Blogger",
+        "Type": "BlogApi.Models.DTOs.AddBloggerDTO",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "BlogApi.Models.Blogger",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "BlogApi.Controllers.BloggerController",
@@ -68,6 +78,11 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": false
+      },
+      {
+        "Name": "blogger",
+        "Type": "BlogApi.Models.DTOs.DeleteBloggerDTO",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

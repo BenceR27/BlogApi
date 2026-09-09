@@ -1,4 +1,5 @@
 ﻿using BlogApi.Models;
+using BlogApi.Models.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
@@ -44,21 +45,70 @@ namespace BlogApi.Controllers
         }
 
         [HttpPost]
-        public object AddNewBlogger(Blogger blogger)
+        public Blogger AddNewBlogger(AddBloggerDTO blogger)
         {
-            return null;
+
+            var connector = new MySqlConnection(ConnectionString);
+
+            connector.Open();
+
+            var blg = new Blogger()
+            {
+                Name = blogger.Name,
+                Email = blogger.Email,
+                Age = blogger.Age,
+                Password = blogger.Password,
+                RegistrationTime = DateTime.Now
+            };
+
+            var sql = $"INSERT INTO `blogger` (`Name`, `Email`, `Age`, `Password`, `RegistrationTime`) VALUES (@name,@email,@age,@password,@registrationtime)";
+
+            var cmd = new MySqlCommand(sql, connector);
+
+            cmd.Parameters.AddWithValue("@name", blg.Name);
+            cmd.Parameters.AddWithValue("@email", blg.Email);
+            cmd.Parameters.AddWithValue("age", blg.Age);
+            cmd.Parameters.AddWithValue("@password", blg.Password);
+            cmd.Parameters.AddWithValue("@registrationtime", blg.RegistrationTime);
+
+            cmd.ExecuteNonQuery();
+
+            connector.Close();
+
+            return blg;
         }
 
         [HttpPut]
         public object UpdateBlogger(int id, Blogger blogger)
         {
+
+            
             return null;
         }
 
         [HttpDelete]
-        public object DeleteBlogger(int id)
+        public object DeleteBlogger(int id, DeleteBloggerDTO blogger)
         {
-            return null;
+            var connector = new MySqlConnection(ConnectionString);
+
+            connector.Open();
+
+            var blgdelete = new Blogger()
+            {
+                Id = blogger.Id
+            };
+
+            var sql = $"DELETE FROM `blogger` WHERE Id=@Id;";
+
+            var cmd = new MySqlCommand(sql, connector);
+
+            cmd.Parameters.AddWithValue("@id", blgdelete.Id);
+
+            cmd.ExecuteNonQuery();
+
+            connector.Close();
+
+            return blgdelete;
         }
     }
 }
