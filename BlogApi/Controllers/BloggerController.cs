@@ -1,6 +1,7 @@
 ﻿using BlogApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MySqlConnector;
 
 namespace BlogApi.Controllers
 {
@@ -8,10 +9,38 @@ namespace BlogApi.Controllers
     [ApiController]
     public class BloggerController : ControllerBase
     {
+        private readonly string ConnectionString = "server=localhost;database=Blog;uid=root;password=";
+
         [HttpGet]
         public List<Blogger> GetAllBlogger()
         {
-            return null;
+            List<Blogger> bloggers = new();
+            var connector = new MySqlConnection(ConnectionString);
+
+            connector.Open();
+
+            string sql = "SELECT * FROM blogger;";
+            
+            var cmd = new MySqlCommand(sql, connector);
+
+            var datareader = cmd.ExecuteReader();
+
+            while (datareader.Read())
+            {
+                var blogger = new Blogger()
+                {
+                    Id = datareader.GetInt32(0),
+                    Name = datareader.GetString(1),
+                    Email = datareader.GetString(2),
+                    Age = datareader.GetInt32(3),
+                    Password = datareader.GetString(4),
+                    RegistrationTime = datareader.GetDateTime(5)
+                };
+                bloggers.Add(blogger);
+            }
+            
+            connector.Close();
+            return bloggers;
         }
 
         [HttpPost]
