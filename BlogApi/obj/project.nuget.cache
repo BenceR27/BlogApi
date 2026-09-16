@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DsfdCJs0JBU=",
+  "dgSpecHash": "9sgHcXKroKU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\rizb\\Desktop\\2026_27_FZ\\Backend\\BlogApi\\BlogApi\\BlogApi.csproj",
+  "projectFilePath": "C:\\Users\\rizb\\Desktop\\2026_27\\Backend\\BlogApi\\BlogApi\\BlogApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rizb\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.11\\microsoft.aspnetcore.openapi.10.0.11.nupkg.sha512",
     "C:\\Users\\rizb\\.nuget\\packages\\microsoft.openapi\\2.7.5\\microsoft.openapi.2.7.5.nupkg.sha512",

@@ -11,4 +11,6 @@ namespace BlogApi.Models
         public string Password { get; set; }
         public DateTime RegistrationTime { get; set; }
     }
+
+
 }
