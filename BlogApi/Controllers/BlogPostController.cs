@@ -19,7 +19,7 @@ namespace BlogApi.Controllers
 
             connector.Open();
 
-            string sql = "SELECT * FROM blogpost;";
+            string sql = @"SELECT * FROM blogpost;";
 
             var cmd = new MySqlCommand(sql, connector);
 
@@ -61,7 +61,7 @@ namespace BlogApi.Controllers
 
             };
 
-            var sql = $"INSERT INTO `blogpost`(`Title`, `Content`, `postTime`, `updateTime`, `blogId`) VALUES ('@title','@content','@posttime','@updatetime','@blogid')";
+            var sql = @"INSERT INTO `blogpost`(`Title`, `Content`, `postTime`, `updateTime`, `blogId`) VALUES ('@title','@content','@posttime','@updatetime','@blogid')";
 
             var cmd = new MySqlCommand(sql, connector);
 
@@ -85,7 +85,7 @@ namespace BlogApi.Controllers
 
             connector.Open();
 
-            var sql = $"DELETE FROM blogpost WHERE id = @id;";
+            var sql = @"DELETE FROM blogpost WHERE id = @id;";
 
             var cmd = new MySqlCommand(sql, connector);
 
@@ -105,7 +105,7 @@ namespace BlogApi.Controllers
 
             connector.Open();
 
-            string sql = @"UPDATE `blogpost` SET `title`=@title,`content`=@content,`updateTim`=@updateTime,`blogId`=@blogId
+            string sql = @"UPDATE `blogpost` SET `title`=@title,`content`=@content,`updateTim`=@updateTime
                 WHERE `id`= @id;";
 
             var cmd = new MySqlCommand(sql, connector);
@@ -127,5 +127,6 @@ namespace BlogApi.Controllers
 
             return new { message = "Sikeres frissítés.", result = updatePostDto };
         }
+
     }
 }
