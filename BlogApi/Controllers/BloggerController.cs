@@ -6,7 +6,7 @@ using MySqlConnector;
 
 namespace BlogApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("blogger")]
     [ApiController]
     public class BloggerController : ControllerBase
     {
