@@ -86,8 +86,8 @@ namespace BlogApi.Controllers
 
             connector.Open();
 
-            string sql = @"UPDATE `blogger` SET `name`=@name,`email`=@email,`age`=@age,`password`=@password 
-                WHERE `id`= @id;";
+            string sql = @"UPDATE `blogger` SET `Name`=@name,`Email`=@email,`Age`=@age,`Password`=@password 
+                WHERE `Id`= @id;";
 
             var cmd = new MySqlCommand(sql, connector);
 
@@ -145,7 +145,7 @@ namespace BlogApi.Controllers
 
             connector.Open();
 
-            var sql = @"SELECT `name`,`email` FROM `blogger` WHERE `id` = @id";
+            var sql = @"SELECT `Name`,`Email` FROM `blogger` WHERE `Id` = @id";
             var cmd = new MySqlCommand(sql, connector);
             cmd.Parameters.AddWithValue("@id", id);
 
@@ -169,10 +169,10 @@ namespace BlogApi.Controllers
 
             connector.Open();
 
-            var sql = @"SELECT blogger.name, blogpost.title, blogpost.content  
+            var sql = @"SELECT blogger.Name, blogpost.Title, blogpost.Content  
                         FROM `blogger` 
-                        INNER JOIN blogpost ON blogger.id = blogpost.blogId
-                        WHERE blogger.`id` = @id;";
+                        INNER JOIN blogpost ON blogger.Id = blogpost.blogId
+                        WHERE blogger.`Id` = @id;";
 
             var cmd = new MySqlCommand(sql, connector);
             cmd.Parameters.AddWithValue("@id", id);
@@ -214,6 +214,40 @@ namespace BlogApi.Controllers
             connector.Close();
 
             return new { message = $"Posztok száma : {db}" };
+        }
+
+        [HttpGet("BloggerPostsNumber")]
+        public object BloggerPostsNumber(int id)
+        {
+            var connector = new MySqlConnection(ConnectionString);
+
+            connector.Open();
+
+            var sql = @"SELECT blogger.Name, COUNT(*)
+                        FROM `blogger`  
+                        INNER JOIN blogpost on blogger.Id = blogpost.blogId
+                        GROUP BY blogger.Id
+                        HAVING `Id` = @id;";
+
+            var cmd = new MySqlCommand(sql, connector);
+            cmd.Parameters.AddWithValue("@id", id);
+
+            var datareader = cmd.ExecuteReader();
+
+            if (datareader.Read() == true)
+            {
+
+                var bloggerPostsNumber = new
+                {
+                    Name = datareader.GetString(0),
+                    NumberOfPosts = datareader.GetString(1)
+                };
+                return bloggerPostsNumber;
+            }
+
+            connector.Close();
+
+            return null;
         }
     }
 }

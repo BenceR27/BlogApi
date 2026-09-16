@@ -85,7 +85,7 @@ namespace BlogApi.Controllers
 
             connector.Open();
 
-            var sql = @"DELETE FROM blogpost WHERE id = @id;";
+            var sql = @"DELETE FROM blogpost WHERE Id = @id;";
 
             var cmd = new MySqlCommand(sql, connector);
 
@@ -105,8 +105,8 @@ namespace BlogApi.Controllers
 
             connector.Open();
 
-            string sql = @"UPDATE `blogpost` SET `title`=@title,`content`=@content,`updateTim`=@updateTime
-                WHERE `id`= @id;";
+            string sql = @"UPDATE `blogpost` SET `Title`=@title,`Content`=@content,`updateTime`=@updateTime
+                WHERE `Id`= @id;";
 
             var cmd = new MySqlCommand(sql, connector);
 
