@@ -85,7 +85,7 @@ namespace BlogApi.Controllers
 
             connector.Open();
 
-            var sql = $"DELETE FROM `blogpost` WHERE id = @id;";
+            var sql = $"DELETE FROM blogpost WHERE id = @id;";
 
             var cmd = new MySqlCommand(sql, connector);
 
@@ -95,7 +95,37 @@ namespace BlogApi.Controllers
 
             connector.Close();
 
-            return new object m;
+            return new { message = "Sikeres törlés" };
+        }
+
+        [HttpPut]
+        public object UpdatePost([FromQuery] int id, [FromBody] UpdatePostDTO updatePostDto)
+        {
+            var connector = new MySqlConnection(ConnectionString);
+
+            connector.Open();
+
+            string sql = @"UPDATE `blogpost` SET `title`=@title,`content`=@content,`updateTim`=@updateTime,`blogId`=@blogId
+                WHERE `id`= @id;";
+
+            var cmd = new MySqlCommand(sql, connector);
+
+            cmd.Parameters.AddWithValue("@title", updatePostDto.Title);
+            cmd.Parameters.AddWithValue("@content", updatePostDto.Content);
+            cmd.Parameters.AddWithValue("@updateTime", DateTime.Now);
+            cmd.Parameters.AddWithValue("@id", id);
+
+            cmd.ExecuteNonQuery();
+
+            var updatedPost = new UpdatePostDTO
+            {
+                Title = updatePostDto.Title,
+                Content = updatePostDto.Content
+            };
+
+            connector.Close();
+
+            return new { message = "Sikeres frissítés.", result = updatePostDto };
         }
     }
 }
